@@ -40,22 +40,19 @@ public class GameModel {
                 new Coordinate(0,0), new Coordinate(0,0));
 
         computer_aircraftCarrier = new BattleshipModel("Computer_AircraftCarrier",5,
-                new Coordinate(0,0), new Coordinate(0,0));
+                new Coordinate(2,2), new Coordinate(2,6));
         computer_battleship      = new BattleshipModel("Computer_Battleship",4,
-                new Coordinate(0,0), new Coordinate(0,0));
+                new Coordinate(2,8), new Coordinate(5,8));
         computer_cruiser         = new BattleshipModel("Computer_Cruiser",3,
-                new Coordinate(0,0), new Coordinate(0,0));
+                new Coordinate(4,1), new Coordinate(4,3));
         computer_destroyer       = new BattleshipModel("Computer_Destroyer",2,
-                new Coordinate(0,0), new Coordinate(0,0));
+                new Coordinate(7,3), new Coordinate(7,4));
         computer_submarine       = new BattleshipModel("Computer_Submarine", 2,
-                new Coordinate(0,0), new Coordinate(0,0));
+                new Coordinate(9,6), new Coordinate(9,7));
 
         playerHits      = new ArrayList<Coordinate>();
         playerMisses    = new ArrayList<Coordinate>();
         computerHits    = new ArrayList<Coordinate>();
         computerMisses  = new ArrayList<Coordinate>();
     }
-
-
-
 }
