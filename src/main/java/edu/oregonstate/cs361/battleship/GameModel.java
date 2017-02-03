@@ -55,4 +55,29 @@ public class GameModel {
         computerHits    = new ArrayList<Coordinate>();
         computerMisses  = new ArrayList<Coordinate>();
     }
+    
+    public void ResetGame(){
+
+        aircraftCarrier.ResetLoc();
+        battleship.ResetLoc();
+        cruiser.ResetLoc();
+        destroyer.ResetLoc();
+        submarine.ResetLoc();
+
+        computer_aircraftCarrier.ResetLoc();
+        computer_battleship.ResetLoc();
+        computer_cruiser.ResetLoc();
+        computer_destroyer.ResetLoc();
+        computer_submarine.ResetLoc();
+
+        playerHits.clear();
+        playerMisses.clear();
+        computerHits.clear();
+        computerMisses.clear();
+    }
+    
+    
 }
+
+
+

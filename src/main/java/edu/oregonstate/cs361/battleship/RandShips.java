@@ -24,7 +24,7 @@ import java.util.Random;
 
   
     public RandShips() {
-        int lengths[] = {2, 2, 3, 5, 6};
+        int lengths[] = {2, 2, 3, 4, 5};
 
         for (int k = 0; k < 5; k++) {
 

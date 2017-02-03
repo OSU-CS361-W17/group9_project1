@@ -28,4 +28,10 @@ public class BattleshipModel {
         start = s;
         end = e;
     }
+    
+    public void ResetLoc(){
+        start = new Coordinate(0,0);
+        end = new Coordinate(0,0);
+    }
+    
 }
