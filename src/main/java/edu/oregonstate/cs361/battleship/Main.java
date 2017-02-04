@@ -62,25 +62,9 @@ public class Main {
     }
 
     public static boolean checkPlacement(GameModel model, Request req){
-        System.out.println("made it to check function");
         int xcord = Integer.parseInt(req.params(":col"));//x coord of ship to place
         int ycord = Integer.parseInt(req.params(":row"));//y coord of ship to place
         int coords[] = new int[20];//array to hold start and end coords of every ship
-
-        Coordinate start = new Coordinate(xcord, ycord);//initialize every segment of the ship
-        Coordinate seg1 = new Coordinate(xcord, ycord);
-        Coordinate seg2 = new Coordinate(xcord, ycord + 2);
-        Coordinate seg3 = new Coordinate(xcord, ycord + 3);
-        Coordinate end = new Coordinate(xcord, ycord + 4);
-
-        if(req.params(":orientation").equals("horizontal")) {//change the coordinates of segments to horizontal if the ship is arranged as such
-            if (req.params(":id").equals("aircraftCarrier")) {
-                seg1 = new Coordinate(xcord + 1, ycord);
-                seg2 = new Coordinate(xcord + 2, ycord);
-                seg3 = new Coordinate(xcord + 3, ycord);
-                end = new Coordinate(xcord + 4, ycord);
-            }
-        }
 
         coords[0] = model.aircraftCarrier.start.Across;//set values of coords array, will be replaced with collision code once the bug is found
         coords[1] = model.aircraftCarrier.start.Down;
@@ -144,7 +128,6 @@ public class Main {
         } else if (shipname.equals("battleship")){
             if(coords[4] != 0)
                 return false;
-            System.out.println("Checking battleship placement, passed already placed test");
             if (req.params(":orientation").equals("vertical")){
                 if(ycord + 3 > 10)
                     return false;
@@ -152,12 +135,10 @@ public class Main {
                 if (xcord + 3 > 10)
                     return false;
             }
-            System.out.println("Checking battleship placement, passed oob test");
             for(int i = 0; i <= 18; i = i + 2){
                 if(coords[i] == xcord && coords[i+1] == ycord)
                     return false;
             }
-            System.out.println("Checking battleship placement, passed start end collision test");
             /*
             if(checkCollision(start, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
                 return false;
@@ -213,7 +194,6 @@ public class Main {
                 return false;
             */
         }
-        System.out.println("Placement passed test");
         return true;
     }
 
@@ -349,7 +329,7 @@ public class Main {
         }
         return false;
     }
-    
+
     //function that checks if won
     private static boolean checkWin(List<Coordinate> phits, List<Coordinate> chits){
         boolean playerWin=false;
@@ -374,6 +354,6 @@ public class Main {
         else
             return false;
     }
-    
+
 
 }
