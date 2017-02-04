@@ -62,7 +62,8 @@ public class Main {
     }
 
     public static boolean checkPlacement(GameModel model, Request req){
-        System.out.println("made it to check function");
+        String shipname = req.params(":id");
+
         int xcord = Integer.parseInt(req.params(":col"));//x coord of ship to place
         int ycord = Integer.parseInt(req.params(":row"));//y coord of ship to place
         int coords[] = new int[20];//array to hold start and end coords of every ship
@@ -82,31 +83,8 @@ public class Main {
             }
         }
 
-        coords[0] = model.aircraftCarrier.start.Across;//set values of coords array, will be replaced with collision code once the bug is found
-        coords[1] = model.aircraftCarrier.start.Down;
-        coords[2] = model.aircraftCarrier.end.Across;
-        coords[3] = model.aircraftCarrier.end.Down;
-        coords[4] = model.battleship.start.Across;
-        coords[5] = model.battleship.start.Down;
-        coords[6] = model.battleship.end.Across;
-        coords[7] = model.battleship.end.Down;
-        coords[8] = model.cruiser.start.Across;
-        coords[9] = model.cruiser.start.Down;
-        coords[10] = model.cruiser.end.Across;
-        coords[11] = model.cruiser.end.Down;
-        coords[12] = model.destroyer.start.Across;
-        coords[13] = model.destroyer.start.Down;
-        coords[14] = model.destroyer.end.Across;
-        coords[15] = model.destroyer.end.Down;
-        coords[16] = model.submarine.start.Across;
-        coords[17] = model.submarine.start.Down;
-        coords[18] = model.submarine.end.Across;
-        coords[19] = model.submarine.end.Down;
-
-        String shipname = req.params(":id");
-
         if (shipname.equals("aircraftCarrier")) {
-            if (coords[0] != 0)//Check if the ship has already been placed
+            if (model.aircraftCarrier.start.Across != 0)//Check if the ship has already been placed
                 return false;
             if (req.params(":orientation").equals("vertical")) {//checks for out of bounds placement
                 if (ycord + 4 > 10)
@@ -115,36 +93,32 @@ public class Main {
                 if (xcord + 4 > 10)
                     return false;
             }
-            for (int i = 0; i <= 18; i = i + 2) {//check if the heads/tails of the ship to be placed colllides with the heads/tails of all other ships
-                if (coords[i] == xcord && coords[i + 1] == ycord)
-                    return false;
-            }/*Following code is meant to replace the above for loop by check for a collision of all occupied coordinate but does not work at the moment
+            /*Following code is meant to replace the above for loop by check for a collision of all occupied coordinate but does not work at the moment
                The issue stems from an unintended "collision" detection every time meaning no ship can be placed, most likely because of my misuse of the check
-               collision function
-            if (checkCollision(start, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false) {
+               collision function*/
+            if (checkShipCollision(start, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false) {
                 System.out.println("start passed");
                 return false;
             }
-            if (checkCollision(seg1, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false) {
+            if (checkShipCollision(seg1, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false) {
                 System.out.println("seg1 passed");
                 return false;
             }
-            if (checkCollision(seg2, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false) {
+            if (checkShipCollision(seg2, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false) {
                 System.out.println("seg2 passed");
                 return false;
             }
-            if(checkCollision(seg3, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false) {
+            if(checkShipCollision(seg3, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false) {
                 System.out.println("seg3 passed");
                 return false;
             }
-            if(checkCollision(end, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false) {
+            if(checkShipCollision(end, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false) {
                 System.out.println("end passed");
                 return false;
-            }*/
+            }
         } else if (shipname.equals("battleship")){
-            if(coords[4] != 0)
+            if(model.battleship.start.Across != 0)
                 return false;
-            System.out.println("Checking battleship placement, passed already placed test");
             if (req.params(":orientation").equals("vertical")){
                 if(ycord + 3 > 10)
                     return false;
@@ -152,26 +126,19 @@ public class Main {
                 if (xcord + 3 > 10)
                     return false;
             }
-            System.out.println("Checking battleship placement, passed oob test");
-            for(int i = 0; i <= 18; i = i + 2){
-                if(coords[i] == xcord && coords[i+1] == ycord)
-                    return false;
-            }
-            System.out.println("Checking battleship placement, passed start end collision test");
-            /*
-            if(checkCollision(start, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
+            if(checkShipCollision(start, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
                 return false;
-            if(checkCollision(seg1, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
+            if(checkShipCollision(seg1, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
                 return false;
-            if(checkCollision(seg2, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
+            if(checkShipCollision(seg2, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
                 return false;
-            if(checkCollision(seg3, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
+            if(checkShipCollision(seg3, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
                 return false;
-            */
+
             if(coords[4] != 0)
                 return false;
         } else if (shipname.equals("cruiser")){
-            if(coords[8] != 0)
+            if(model.cruiser.start.Across != 0)
                 return false;
             if (req.params(":orientation").equals("vertical")){
                 if(ycord + 2 > 10)
@@ -180,20 +147,16 @@ public class Main {
                 if (xcord + 2 > 10)
                     return false;
             }
-            for(int i = 0; i <= 18; i = i + 2){
-                if(coords[i] == xcord && coords[i+1] == ycord)
-                    return false;
-            }
-            /*
-            if(checkCollision(start, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
+
+            if(checkShipCollision(start, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
                 return false;
-            if(checkCollision(seg1, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
+            if(checkShipCollision(seg1, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
                 return false;
-            if(checkCollision(seg2, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
+            if(checkShipCollision(seg2, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
                 return false;
-            */
+
         } else if (shipname.equals("destroyer") || shipname.equals("submarine")){
-            if(coords[12] != 0 && coords[16] != 0)
+            if(model.destroyer.start.Across != 0 && model.submarine.start.Across != 0)
                 return false;
             if (req.params(":orientation").equals("vertical")){
                 if(ycord + 1 > 10)
@@ -202,18 +165,12 @@ public class Main {
                 if (xcord + 1 > 10)
                     return false;
             }
-            for(int i = 0; i <= 18; i = i + 2){
-                if(coords[i] == xcord && coords[i+1] == ycord)
-                    return false;
-            }
-            /*
-            if(checkCollision(start, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
+            if(checkShipCollision(start, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
                 return false;
-            if(checkCollision(seg1, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
+            if(checkShipCollision(seg1, model.aircraftCarrier, model.battleship, model.cruiser, model.destroyer, model.submarine) == false)
                 return false;
-            */
+
         }
-        System.out.println("Placement passed test");
         return true;
     }
 
@@ -335,6 +292,49 @@ public class Main {
             }
         }
         return false;
+    }
+
+    static boolean checkShipCollision(Coordinate cord, BattleshipModel ac, BattleshipModel bs, BattleshipModel c, BattleshipModel d, BattleshipModel s){
+        ArrayList<BattleshipModel> shipList = new ArrayList<BattleshipModel>();
+        shipList.add(ac);
+        shipList.add(bs);
+        shipList.add(c);
+        shipList.add(d);
+        shipList.add(s);
+        for (int i = 0; i < 5; i++) {
+            BattleshipModel temp = shipList.get(i);
+            int orientation;//1 for horizontal 0 for vertical
+            if (temp.start.Across == temp.end.Across)//if the ship is horizontal
+                orientation = 1;
+            else
+                orientation = 0;
+            if (orientation == 1) {//check horizontally for collision
+                if (temp.start.Across == cord.Across && temp.start.Down == cord.Down) {
+                    return false;
+                } else if (temp.start.Across + 1 == cord.Across && temp.start.Down == cord.Down) {
+                    return false;
+                } else if (temp.start.Across + 2 == cord.Across && temp.start.Down == cord.Down) {
+                    return false;
+                } else if (temp.start.Across + 3 == cord.Across && temp.start.Down == cord.Down) {
+                    return false;
+                } else if (temp.start.Across + 4 == cord.Across && temp.start.Down == cord.Down) {
+                    return false;
+                }
+            } else if (orientation == 0) {//check vertically for collision
+                if (temp.start.Across == cord.Across && temp.start.Down == cord.Down) {
+                    return false;
+                } else if (temp.start.Across == cord.Across && temp.start.Down + 1 == cord.Down) {
+                    return false;
+                } else if (temp.start.Across == cord.Across && temp.start.Down + 2 == cord.Down) {
+                    return false;
+                } else if (temp.start.Across == cord.Across && temp.start.Down + 3 == cord.Down) {
+                    return false;
+                } else if (temp.start.Across == cord.Across && temp.start.Down + 4 == cord.Down) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     static boolean checkRepeatFire(Coordinate cord, List<Coordinate> hit, List<Coordinate> miss) {
